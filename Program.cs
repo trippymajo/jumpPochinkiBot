@@ -1,39 +1,67 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 
+using Microsoft.Extensions.DependencyInjection;
+
+
 namespace jumpPochinkiBot
 {
-	class Program
+	public class Program
 	{
-		private DiscordSocketClient client;
-		private CommandService commands;
-		public static Task Main(string[] args)
-			=> new Program().MainAsync();
+        //Entry Point here
+        static void Main(string[] args)
+            => new Program().MainAsync().GetAwaiter().GetResult();
 
-		public async Task MainAsync()
-		{
-			client = new DiscordSocketClient();
-			client.Log += Log;
+        public async Task MainAsync()
+        {
+            using (var services = ConfigureServices())
+            {
+                var client = services.GetRequiredService<DiscordSocketClient>();
 
-			var token = File.ReadAllText("C:\\Users\\Admin\\source\\repos\\jumpPochinkiBot\\discordToken.txt");
+                client.Log += LogAsync;
+                services.GetRequiredService<CommandService>().Log += LogAsync;
 
-			await client.LoginAsync(TokenType.Bot, token);
-			await client.StartAsync();
+                var token = File.ReadAllText("C:\\Users\\Admin\\source\\repos\\jumpPochinkiBot\\discordToken.txt");
 
-			await Task.Delay(-1);
-		}
+                await client.LoginAsync(TokenType.Bot, token);
+                await client.StartAsync();
 
-		private Task Log(LogMessage msg)
-		{
-			Console.WriteLine(msg.ToString());
-			return Task.CompletedTask;
-		}
+                // Here we initialize the logic required to register our commands.
+                await services.GetRequiredService<CommandsHandler>().InitializeAsync();
 
-		
-	}
+                await Task.Delay(Timeout.Infinite);
+            }
+        }
+
+        private Task LogAsync(LogMessage log)
+        {
+            Console.WriteLine(log.ToString());
+
+            return Task.CompletedTask;
+        }
+
+        private ServiceProvider ConfigureServices()
+        {
+            return new ServiceCollection()
+                .AddSingleton(new DiscordSocketConfig
+                {
+                   //...
+                })
+                .AddSingleton<DiscordSocketClient>()
+                .AddSingleton<CommandService>()
+                .AddSingleton<CommandsHandler>()
+                //.AddSingleton<HttpClient>()
+                //.AddSingleton<PictureService>()
+                .BuildServiceProvider();
+        }
+    }
 }
