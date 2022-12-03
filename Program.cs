@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Discord;
-using Discord.Commands;
+using Discord.Interactions;
 using Discord.WebSocket;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +28,7 @@ namespace jumpPochinkiBot
                 var client = services.GetRequiredService<DiscordSocketClient>();
 
                 client.Log += LogAsync;
-                services.GetRequiredService<CommandService>().Log += LogAsync;
+                services.GetRequiredService<InteractionService>().Log += LogAsync;
 
                 var token = File.ReadAllText("C:\\Users\\Admin\\source\\repos\\jumpPochinkiBot\\discordToken.txt");
 
@@ -36,7 +36,7 @@ namespace jumpPochinkiBot
                 await client.StartAsync();
 
                 // Here we initialize the logic required to register our commands.
-                await services.GetRequiredService<CommandsHandler>().InitializeAsync();
+                await services.GetRequiredService<InteractionHandler>().InitializeAsync(); ;
 
                 await Task.Delay(Timeout.Infinite);
             }
@@ -50,18 +50,16 @@ namespace jumpPochinkiBot
         }
 
         private ServiceProvider ConfigureServices()
-        {
-            return new ServiceCollection()
-                .AddSingleton(new DiscordSocketConfig
-                {
-                   //...
-                })
-                .AddSingleton<DiscordSocketClient>()
-                .AddSingleton<CommandService>()
-                .AddSingleton<CommandsHandler>()
-                //.AddSingleton<HttpClient>()
-                //.AddSingleton<PictureService>()
-                .BuildServiceProvider();
+		{
+			return new ServiceCollection()
+				.AddSingleton(new DiscordSocketConfig
+				{
+					//...
+				})
+				.AddSingleton<DiscordSocketClient>()
+                .AddSingleton(x => new InteractionService(x.GetRequiredService<DiscordSocketClient>()))
+                .AddSingleton<InteractionHandler>()
+				.BuildServiceProvider();
         }
-    }
+	}
 }
