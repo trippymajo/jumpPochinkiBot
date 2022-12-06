@@ -5,7 +5,7 @@ The bot for the discord based on Discord.Net libraries, which gathering your sta
 Discord.Net:
 - [x] Getting started with Discord.Net
 - [x] Learn how to make the bot answer in channels
-- [ ] Learn how to make the bot to change the role of the user
+- [x] Learn how to make the bot to change the role of the user
 
 PUBG API:
 - [ ] Getting started with PUBG API
