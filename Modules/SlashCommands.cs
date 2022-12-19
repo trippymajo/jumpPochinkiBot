@@ -44,5 +44,13 @@ namespace jumpPochinkiBot.Modules
 			*/
 			await RespondAsync($"Successfully added the rank {role.Mention} to you.");
 		}
+		[SlashCommand("apitest", "I want a request")] //Responding
+		public async Task apitest()
+		{
+			string response = await pubgAPI.GetRequest().ConfigureAwait(false);
+			string seasons = "Seasons info has arrived. Check console 4 It.";
+			await RespondAsync(seasons);
+		}
+
 	}
 }

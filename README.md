@@ -8,7 +8,7 @@ Discord.Net:
 - [x] Learn how to make the bot to change the role of the user
 
 PUBG API:
-- [ ] Getting started with PUBG API
+- [X] Getting started with PUBG API
 - [ ] Learn how to take statistics from the API
 
 BOT: 
