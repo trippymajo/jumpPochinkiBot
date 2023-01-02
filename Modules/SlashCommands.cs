@@ -49,7 +49,7 @@ namespace jumpPochinkiBot.Modules
 		{
 			string response = await pubgAPI.CurrentSeasonId().ConfigureAwait(false);
 			string seasons = "Seasons info has arrived. Check console 4 It.";
-			await RespondAsync(seasons);
+			await RespondAsync(response);
 		}
 
 	}

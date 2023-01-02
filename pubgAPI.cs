@@ -1,5 +1,4 @@
 ﻿//using JsonApiSerializer;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net;
@@ -26,22 +25,24 @@ namespace jumpPochinkiBot
 
 		public static async Task<string> CurrentSeasonId()
 		{
-			string seasonID = "/seasons";
-			string responseSesonId = await Requester(seasonID);
-			//await deserialize(responseSesonId);
-			return responseSesonId;
+			string seasonUrl = "/seasons";
+			string responseSeasonId = await Requester(seasonUrl);
+
+			return SeasonID.GetCurrentSeasonID(responseSeasonId);
 		}
 		public static async Task<string> Requester(string requestTailUrl)
 		{
+			//URL Construcor
 			string url = pubgApiUrl + requestTailUrl;
 			var token = File.ReadAllText("C:\\Users\\Admin\\source\\repos\\jumpPochinkiBot\\pubgToken.txt");
+
+			//HttpRequester. Sending request and recieving response.
 			using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
 			request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-			//request.Headers.Add("Accept-Encoding", "gzip");
-			request.Headers.Add("Accept", "application/vnd.api+json");
+			request.Headers.Add("Accept", "application/json");
 			var response = await httpClient.SendAsync(request);
 			var responseContent = await response.Content.ReadAsStringAsync();
-			Console.WriteLine(responseContent);
+
 			return HandleResponse(response, responseContent);
 		}
 
