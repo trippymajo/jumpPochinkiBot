@@ -47,7 +47,7 @@ namespace jumpPochinkiBot.Modules
 		[SlashCommand("apitest", "I want a request")] //Responding
 		public async Task apitest()
 		{
-			string response = await pubgAPI.GetRequest().ConfigureAwait(false);
+			string response = await pubgAPI.CurrentSeasonId().ConfigureAwait(false);
 			string seasons = "Seasons info has arrived. Check console 4 It.";
 			await RespondAsync(seasons);
 		}

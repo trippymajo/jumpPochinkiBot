@@ -9,7 +9,8 @@ Discord.Net:
 
 PUBG API:
 - [X] Getting started with PUBG API
-- [ ] Learn how to take statistics from the API
+- [X] Learn how to take statistics from the API
+- [ ] How to read Json information from the response. Deserialize and serialize understanding.
 
 BOT: 
 - [ ] Implement the PUBG API using to the bot, make him print the stats of the pubgID user.
