@@ -10,11 +10,11 @@ namespace jumpPochinkiBot.Modules
 	public class SlashCommands : InteractionModuleBase<SocketInteractionContext>
 	{
 		[SlashCommand("meow", "Doing OwO UwU 4 U")] //Responding
-		public async Task meow()
+		public async Task Meow()
 			=> await RespondAsync("Meow-Meow-Meow OwO UwU");
 
 		[SlashCommand("role", "Giving you a cute role")] // Adding role here
-		public async Task role ()
+		public async Task Role ()
 		{
 			ulong roleId = 1049674976342589460; // should be change to something like:
 
@@ -44,13 +44,25 @@ namespace jumpPochinkiBot.Modules
 			*/
 			await RespondAsync($"Successfully added the rank {role.Mention} to you.");
 		}
-		[SlashCommand("apitest", "I want a request")] //Responding
-		public async Task apitest()
+		[SlashCommand("season", "Get Current Season's ID")] //Responding
+		public async Task SeasonId()
 		{
-			string response = await pubgAPI.CurrentSeasonId().ConfigureAwait(false);
-			string seasons = "Seasons info has arrived. Check console 4 It.";
-			await RespondAsync(response);
+			string seasonId = await pubgApi.CurrentSeasonId().ConfigureAwait(false);
+			await RespondAsync(seasonId);
 		}
 
+		[SlashCommand("account", "Get Your Account ID, input nickname.")] //Responding
+		public async Task AccountId(string playerNickName)
+		{
+			string accountId = await pubgApi.PlayersAccountId(playerNickName).ConfigureAwait(false);
+			await RespondAsync(accountId);
+		}
+
+		[SlashCommand("stats", "Get Your Ranked Stats, input nickname.")] //Responding
+		public async Task RankedStats(string playerNickName)
+		{
+			string rankedStats = await pubgApi.PlayersRankedStats(playerNickName).ConfigureAwait(false);
+			await RespondAsync(rankedStats);
+		}
 	}
 }

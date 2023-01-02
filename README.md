@@ -13,6 +13,6 @@ PUBG API:
 - [X] How to read Json information from the response. Deserialize and serialize understanding.
 
 BOT: 
-- [ ] Implement the PUBG API using to the bot, make him print the stats of the pubgID user.
+- [X] Implement the PUBG API using to the bot, make him print the stats of the pubgID user.
 - [ ] Implement the PUBG API using to the bot, make him give roles depending on the stats of the pubgID user.
 - [ ] TODO

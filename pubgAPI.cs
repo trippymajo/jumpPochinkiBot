@@ -17,19 +17,42 @@ using System;
 //using System;
 namespace jumpPochinkiBot
 {
-	public class pubgAPI
+	public class pubgApi
 	{
 		const string pubgApiUrl = "https://api.pubg.com/shards/steam";
 
 		static HttpClient httpClient = new HttpClient();
+		
+		public static async Task<string> PlayersRankedStats(string playerId)
+		{
+			string rankedStatsUrl = "/players/";
+			string accountId = await PlayersAccountId(playerId);
+			string seasonId = await CurrentSeasonId();
+			rankedStatsUrl = rankedStatsUrl + accountId + "/seasons/" + seasonId + "/ranked";
+			string responseRankedStats = await Requester(rankedStatsUrl);
+
+			RankedStats.GetRankedStats(responseRankedStats);
+			string rankedStats = RankedStats.tier + " " + RankedStats.subTier + " kda:" + RankedStats.kda.ToString("0.00") +" avgDamage:"+ RankedStats.avgDamage.ToString("0.00");
+			return rankedStats;
+		}
+
+		public static async Task<string> PlayersAccountId(string playerId)
+		{
+			string playersUrl = "/players?filter[playerNames]=" + playerId;
+			string responseAccountId = await Requester(playersUrl);
+
+			return AccountId.GetAccountId(responseAccountId);
+
+		}
 
 		public static async Task<string> CurrentSeasonId()
 		{
 			string seasonUrl = "/seasons";
 			string responseSeasonId = await Requester(seasonUrl);
 
-			return SeasonID.GetCurrentSeasonID(responseSeasonId);
+			return SeasonId.GetCurrentSeasonId(responseSeasonId);
 		}
+
 		public static async Task<string> Requester(string requestTailUrl)
 		{
 			//URL Construcor
