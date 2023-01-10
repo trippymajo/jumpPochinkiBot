@@ -54,7 +54,7 @@ namespace jumpPochinkiBot
 			return new ServiceCollection()
 				.AddSingleton(new DiscordSocketConfig
 				{
-					//...
+					UseInteractionSnowflakeDate = false
 				})
 				.AddSingleton<DiscordSocketClient>()
                 .AddSingleton(x => new InteractionService(x.GetRequiredService<DiscordSocketClient>()))

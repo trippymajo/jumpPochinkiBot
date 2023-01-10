@@ -92,8 +92,11 @@ namespace jumpPochinkiBot
 			var accountDatas = JsonSerializer.Deserialize<AccountData>(json);
 			for (int i = 0; i < accountDatas.data.Count; i++)
 			{
-				var accountId = accountDatas.data[i].id;
-				return accountId;
+				if (accountDatas.data[i].id != "")
+				{
+					var accountId = accountDatas.data[i].id;
+					return accountId;
+				}
 			}
 			return null;
 		}

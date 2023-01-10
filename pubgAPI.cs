@@ -22,6 +22,11 @@ namespace jumpPochinkiBot
 		const string pubgApiUrl = "https://api.pubg.com/shards/steam";
 
 		static HttpClient httpClient = new HttpClient();
+
+		public static string tier = null;
+		public static string subTier = null;
+		public static float kda = 0;
+		public static float avgDamage = 0;
 		
 		public static async Task<string> PlayersRankedStats(string playerId)
 		{
@@ -32,7 +37,15 @@ namespace jumpPochinkiBot
 			string responseRankedStats = await Requester(rankedStatsUrl);
 
 			RankedStats.GetRankedStats(responseRankedStats);
-			string rankedStats = RankedStats.tier + " " + RankedStats.subTier + " kda:" + RankedStats.kda.ToString("0.00") +" avgDamage:"+ RankedStats.avgDamage.ToString("0.00");
+
+			//Stats:
+			tier = RankedStats.tier;
+			subTier = RankedStats.subTier;
+			kda = RankedStats.kda;
+			avgDamage = RankedStats.avgDamage;
+
+
+			string rankedStats = tier + " " + subTier + " kda:" + kda.ToString("0.00") +" avgDamage:"+ avgDamage.ToString("0.00");
 			return rankedStats;
 		}
 
