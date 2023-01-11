@@ -102,11 +102,13 @@ namespace jumpPochinkiBot.Modules
 				await (Context.User as SocketGuildUser).AddRoleAsync(role);
 			}
 		}
+
 		public async Task ClearPrevRoles()
 		{
-			var roleRankPrev = (Context.User as SocketGuildUser).Guild.Roles.FirstOrDefault(x => x.Name.StartsWith("Rank"));
-			var roleKdaPrev = (Context.User as SocketGuildUser).Guild.Roles.FirstOrDefault(x => x.Name.StartsWith("KDA"));
-			var roleAdrPrev = (Context.User as SocketGuildUser).Guild.Roles.FirstOrDefault(x => x.Name.StartsWith("ADR"));
+			var roleRankPrev = (Context.User as SocketGuildUser).Roles.FirstOrDefault(x => x.Name.StartsWith("Rank"));
+			var roleKdaPrev = (Context.User as SocketGuildUser).Roles.FirstOrDefault(x => x.Name.StartsWith("KDA"));
+			var roleAdrPrev = (Context.User as SocketGuildUser).Roles.FirstOrDefault(x => x.Name.StartsWith("ADR"));
+			//WORKAROUND cos could not delete role and get the id of the next one instead of deleted.
 
 			if (roleRankPrev != null)
 				await (Context.User as SocketGuildUser).RemoveRoleAsync(roleRankPrev);
