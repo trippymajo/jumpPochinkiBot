@@ -33,6 +33,10 @@ namespace jumpPochinkiBot
 			string rankedStatsUrl = "/players/";
 			string accountId = await PlayersAccountId(playerId);
 			string seasonId = await CurrentSeasonId();
+			//await Task.WhenAll(PlayersAccountId(playerId), CurrentSeasonId());
+			//string accountId = PlayersAccountId(playerId).Result;
+			//string seasonId = CurrentSeasonId().Result;
+
 			rankedStatsUrl = rankedStatsUrl + accountId + "/seasons/" + seasonId + "/ranked";
 			string responseRankedStats = await Requester(rankedStatsUrl);
 

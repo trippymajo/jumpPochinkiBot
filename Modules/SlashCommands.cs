@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,14 +20,16 @@ namespace jumpPochinkiBot.Modules
 		[SlashCommand("stats", "Get Your Ranked Stats, input nickname.")] //Responding
 		public async Task RankedStats(string playerNickName)
 		{
-			string rankedStats = await pubgApi.PlayersRankedStats(playerNickName).ConfigureAwait(false);
+			//Stopwatch stopwatch = new Stopwatch();
+			//stopwatch.Start();
+			string rankedStats = await pubgApi.PlayersRankedStats(playerNickName).ConfigureAwait(false); //Too musch time wasted.
 
 			string tier = "Rank " + pubgApi.tier;
 			//string subTier = pubgApi.subTier;
 			float kda = pubgApi.kda;
 			float avgDamage = pubgApi.avgDamage;
 
-			await ClearPrevRoles();
+			await ClearPrevRoles(); //Too much time wasted.
 
 			await GiveRole(tier);
 
@@ -86,7 +89,9 @@ namespace jumpPochinkiBot.Modules
 				await GiveRole("ADR >350");
 			}
 
-			await ReplyAsync(playerNickName + ": " + rankedStats);
+			await RespondAsync(playerNickName + ": " + rankedStats);
+			//stopwatch.Stop();
+			//Console.WriteLine(stopwatch.ElapsedMilliseconds);
 		}
 		public async Task GiveRole(string rankName)
 		{
