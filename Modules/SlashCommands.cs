@@ -22,6 +22,7 @@ namespace jumpPochinkiBot.Modules
 		{
 			//Stopwatch stopwatch = new Stopwatch();
 			//stopwatch.Start();
+			await DeferAsync();
 			string rankedStats = await pubgApi.PlayersRankedStats(playerNickName).ConfigureAwait(false); //Too musch time wasted.
 
 			string tier = "Rank " + pubgApi.tier;
@@ -89,7 +90,7 @@ namespace jumpPochinkiBot.Modules
 				await GiveRole("ADR >350");
 			}
 
-			await RespondAsync(playerNickName + ": " + rankedStats);
+			await FollowupAsync(playerNickName + ": " + rankedStats);
 			//stopwatch.Stop();
 			//Console.WriteLine(stopwatch.ElapsedMilliseconds);
 		}
